@@ -1,0 +1,49 @@
+﻿@model Vidly.ViewModels.newviewmodel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Model.CustomerTitle</h2>
+@using (Html.BeginForm("Create", "Customer"))
+{
+    @Html.ValidationSummary(true,"Please fix the following errors.");
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.CustomerName)
+        @Html.TextBoxFor(m => m.customer.CustomerName, new { @class = "form-control" }) @{ /*anonymous function for attributes*/}
+        @Html.ValidationMessageFor(m => m.customer.CustomerName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.MembershipTypeId)
+        @Html.DropDownListFor(m => m.customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"),
+                    "Select Membership Types",
+                    new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.customer.MembershipTypeId)
+    </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.customer.birthdate)
+        @Html.TextBoxFor(m => m.customer.birthdate, "{0:d MMM yyyy}", new { @class = "form-control" }) @{ /*anonymous function for attributes*/}
+        @Html.ValidationMessageFor(m => m.customer.birthdate)
+    </div>
+    <div>
+        </div>
+
+    <div class="form-group">
+        <label>
+            @Html.CheckBoxFor(m => m.customer.iscustomersuscribedtonewsletter) Subscribe to newsletter? @{ /*anonymous function for attributes*/}
+            @Html.ValidationMessageFor(m => m.customer.iscustomersuscribedtonewsletter)
+        </label>
+    </div>
+
+    @Html.HiddenFor(m => m.customer.CustomerId);
+               @Html.AntiForgeryToken();
+                <button type="submit" class="btn btn-primary">Save</button>
+
+                }
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
